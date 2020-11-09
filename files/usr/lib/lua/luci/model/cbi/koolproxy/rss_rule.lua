@@ -1,5 +1,5 @@
 local m, s, o
-local koolproxy = "koolproxy"
+local koolproxy = "AD大师"
 local sid = arg[1]
 
 m = Map(koolproxy, "%s - %s" %{translate("koolproxy"), translate("编辑规则")})
