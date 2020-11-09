@@ -1,19 +1,19 @@
 #!/bin/sh
-alias echo_date='echo $(date +%Y年%m月%d日\ %X):'
 
 if [ ! -f openssl.cnf ]; then
-	echo_date "Cannot found openssl.cnf"
+	logger -t "【koolproxy】" "Cannot found openssl.cnf"
 	exit 1
 fi
-if [ -f /usr/share/koolproxy/data/private/ca.key.pem ]; then
-	echo_date "已经有证书了！"
+if [ -f /tmp/7620koolproxy/data/private/ca.key.pem ]; then
+	logger -t "【koolproxy】" "已经有证书了！"
 else
-	echo_date "生成证书中..."
+	logger -t "【koolproxy】" "生成证书中..."
 
 	#step 1, root ca
 	mkdir -p certs private
-	rm -f serial private/ca.key.pem
+	rm -f index.txt serial private/ca.key.pem
 	chmod 700 private
+	touch index.txt
 	echo 1000 > serial
 	openssl genrsa -aes256 -passout pass:koolshare -out private/ca.key.pem 2048
 	chmod 400 private/ca.key.pem
@@ -25,5 +25,5 @@ else
 
 	#step 2, domain rsa key
 	openssl genrsa -aes256 -passout pass:koolshare -out private/base.key.pem 2048
-	echo_date "证书生成完毕..."
+	logger -t "【koolproxy】" "证书生成完毕..."
 fi
